@@ -1,0 +1,286 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,400&family=Montserrat:wght@200;400&display=swap');
+
+:root {
+    --bg: #0a0a0a;
+    --text-main: #e0e0e0;
+    --accent: #d4af37; /* Gold */
+    --glass: rgba(0, 0, 0, 0.6); 
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    background-color: var(--bg);
+    /* Beautiful fixed background */
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1920&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--text-main);
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+}
+
+/* --- TYPOGRAPHY --- */
+h1, h2, h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    text-shadow: 0 4px 15px rgba(0,0,0,0.8);
+}
+
+.emotional-text {
+    font-size: 1.5rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.95);
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.9);
+}
+
+/* --- SECTIONS --- */
+section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 1.5s ease;
+    
+    /* Safari Support */
+    -webkit-backdrop-filter: brightness(0.9);
+    backdrop-filter: brightness(0.9); 
+}
+
+section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- MUSIC PLAYER --- */
+.music-control {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+    background: rgba(0,0,0,0.6);
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: 1px solid rgba(255,255,255,0.2);
+    cursor: pointer;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.music-control:hover { background: rgba(255,255,255,0.1); }
+.music-anim { height: 15px; display: flex; gap: 3px; align-items: flex-end; }
+.bar { width: 3px; background: var(--accent); animation: equalize 1s infinite; }
+.bar:nth-child(2) { animation-delay: 0.2s; }
+.bar:nth-child(3) { animation-delay: 0.4s; }
+@keyframes equalize { 0%, 100% { height: 2px; } 50% { height: 15px; } }
+
+/* --- HERO SECTION --- */
+.hero h1 {
+    font-size: 4rem;
+    background: linear-gradient(to right, #fff, #d4af37);
+
+    /* Vendor-prefixed first */
+    -webkit-background-clip: text;
+
+    /* Standard property after */
+    background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+
+    margin-bottom: 20px;
+    text-shadow: none;
+}
+
+
+.scroll-indicator {
+    position: absolute;
+    bottom: 40px;
+    animation: bounce 2s infinite;
+    opacity: 0.7;
+}
+
+/* --- GALLERY GRID --- */
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    width: 100%;
+    max-width: 1000px;
+    margin-top: 40px;
+}
+
+.photo-card {
+    background: var(--glass);
+    height: 300px;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.5s;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.photo-card:hover { transform: scale(1.02); z-index: 2; }
+
+.photo-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: 0.5s;
+}
+.photo-card:hover img { opacity: 1; }
+
+/* --- NEW UTILITY CLASS FOR GALLERY TEXT --- */
+.gallery-caption {
+    margin-top: 30px;
+}
+
+/* --- THE APOLOGY --- */
+.letter-container {
+    background: rgba(0, 0, 0, 0.6);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    padding: 40px;
+    border-radius: 8px;
+    border-left: 3px solid var(--accent);
+    max-width: 700px;
+    text-align: left;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+}
+
+/* New Clean Classes for Letter Elements */
+.apology-title {
+    margin-bottom: 20px;
+    color: var(--accent);
+}
+
+.apology-para {
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.apology-para-last {
+    line-height: 1.8;
+    margin-bottom: 0; /* Remove bottom margin for last element */
+}
+
+/* --- INTERACTION --- */
+.action-title {
+    margin-bottom: 10px;
+}
+
+.hold-btn {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.4);
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-top: 40px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: 0.3s;
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+}
+
+.hold-btn:hover { box-shadow: 0 0 40px rgba(212, 175, 55, 0.6); }
+
+.hold-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: var(--accent);
+    transition: height 0.1s linear;
+    z-index: -1;
+}
+
+/* --- FINAL REVEAL --- */
+#final-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* ANIMATED ROMANTIC GRADIENT */
+    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fad0c4, #ffdde1);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    
+    color: black;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    clip-path: circle(0% at 50% 50%);
+    transition: clip-path 2s ease-in-out;
+}
+
+#final-screen.active {
+    clip-path: circle(150% at 50% 50%);
+}
+
+.bday-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem;
+    color: #fff;
+    margin-bottom: 20px;
+    text-shadow: 0 4px 20px rgba(255, 105, 135, 0.6);
+    animation: heartbeat 3s infinite ease-in-out;
+}
+
+.final-message {
+    font-size: 1.5rem;
+    color: #fff;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Floating Hearts Animation */
+.floating-heart {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 2rem;
+    animation: floatUp 6s linear infinite;
+    bottom: -10%;
+    z-index: 10;
+}
+
+/* --- ANIMATIONS --- */
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    20% { opacity: 0.8; }
+    100% { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+}

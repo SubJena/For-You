@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You</title>
+    <link rel="stylesheet" href="style3.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <audio id="bg-music" loop>
+        <source src="song.mpeg" type="audio/mpeg">
+    </audio>
+
+    <div class="music-control" onclick="toggleMusic()">
+        <div class="music-anim">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <span>Tap for Music</span>
+    </div>
+
+    <section class="hero">
+        <h1>I miss you.</h1>
+        <p class="emotional-text">The silence between us hurts more than any argument ever did. I’m sorry for the pain I caused..</p>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <section>
+        <p class="emotional-text">I was looking through your pretty photos today...</p>
+        <div class="gallery">
+            <div class="photo-card"><img src="image1.jpg" alt="Memory 1"></div>
+            <div class="photo-card"><img src="image6.jpg" alt="Memory 2"></div>
+            <div class="photo-card"><img src="ank.jpeg" alt="Memory 3"></div>
+        </div>
+        <p class="emotional-text gallery-caption">Every picture reminded me of how effortlessly you make everything brighter.
+Life feels quieter without your presence.</p>
+    </section>
+
+    <section>
+        <div class="letter-container">
+            <h2 class="apology-title">My Apology</h2>
+            
+            <p class="apology-para">
+                I hate that we’re not okay right now.
+Especially on a day that should be filled with smiles.
+            </p>
+            <p class="apology-para">
+                I know I messed up. I know I hurt you.
+I haven’t handled things the way I should have, and for that, I’m truly sorry.
+            </p>
+            <p class="apology-para">
+                Please know this.
+My anger, my words, my mistakes were never bigger than the care and respect I have for you.
+            </p>
+            
+            <p class="apology-para-last">
+                You matter to me more than I ever showed.
+I don’t want to win arguments. I just want peace between us again.
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="action-title">It's almost time...</h2>
+        <p class="emotional-text">There’s no pressure, no expectations.
+This is just a small wish I made for you today.
+If you feel like it, you can hold the button below.</p>
+        
+        <button class="hold-btn" id="holdBtn" onmousedown="startHold()" onmouseup="endHold()" onmouseleave="endHold()" ontouchstart="startHold()" ontouchend="endHold()">
+            <div class="hold-fill" id="fill"></div>
+            HOLD<br>FOR A WISH
+        </button>
+    </section>
+
+    <div id="final-screen">
+        <h1 class="bday-text">Happy Birthday</h1>
+        <p class="final-message">
+            You deserve all the happiness today and always.<br>
+            You’re beautiful inside and out, and I’m truly grateful for you.
+        </p>
+        <div id="confetti-container"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.4.0/dist/confetti.browser.min.js"></script>
+    <script>
+        // Scroll Reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Music Control
+        const music = document.getElementById('bg-music');
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                document.querySelector('.music-control span').innerText = "Playing...";
+            } else {
+                music.pause();
+                document.querySelector('.music-control span').innerText = "Paused";
+            }
+        }
+
+        // Hold Button Logic
+        let holdTimer;
+        let fillLevel = 0;
+        const fillElem = document.getElementById('fill');
+        const finalScreen = document.getElementById('final-screen');
+
+        function startHold() {
+            holdTimer = setInterval(() => {
+                fillLevel += 2;
+                fillElem.style.height = fillLevel + '%';
+                if (fillLevel >= 100) {
+                    clearInterval(holdTimer);
+                    triggerCelebration();
+                }
+            }, 20);
+        }
+
+        function endHold() {
+            clearInterval(holdTimer);
+            fillLevel = 0;
+            fillElem.style.height = '0%';
+        }
+
+        // CELEBRATION
+        function triggerCelebration() {
+            finalScreen.classList.add('active');
+            createFloatingHearts();
+
+            // Confetti
+            let duration = 5 * 1000;
+            let animationEnd = Date.now() + duration;
+            let defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 300 };
+
+            function randomInOut(min, max) { return Math.random() * (max - min) + min; }
+
+            let interval = setInterval(function() {
+                let timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return clearInterval(interval);
+                let particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInOut(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInOut(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
+        }
+
+        // FLOATING HEARTS
+        function createFloatingHearts() {
+            const container = document.getElementById('final-screen');
+            for (let i = 0; i < 30; i++) {
+                const heart = document.createElement('div');
+                heart.innerHTML = '❤️';
+                heart.classList.add('floating-heart');
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = (Math.random() * 2 + 1) + 'rem';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(heart);
+            }
+        }
+    </script>
+</body>
+</html>
